@@ -134,7 +134,7 @@
     <div class="container">
         <img src="logo.png" alt="Pandas Salvajes Logo" class="logo">
         
-        <h1>PANTERAS SALVAJES <br><small style="font-size: 0.6em; color: white;">SISTEMA DE PRUEBAS</small></h1>
+        <h1>PANDAS SALVAJES <br><small style="font-size: 0.6em; color: white;">SISTEMA DE PRUEBAS</small></h1>
 
         <form id="registroForm">
             <div class="form-group">
@@ -174,28 +174,24 @@
             e.preventDefault()
             btn.disabled = true
             btn.innerHTML = "PROCESANDO..."
-            mensajeDiv.style.display = "none"
-
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            
+            // Usamos una técnica para evitar errores de CORS en algunos navegadores
+            fetch(scriptURL, { method: 'POST', body: new FormData(form), mode: 'no-cors'})
                 .then(response => {
-                    mensajeDiv.innerText = "¡REGISTRO EXITOSO!"
-                    mensajeDiv.style.color = "#00FF00"
-                    mensajeDiv.style.display = "block"
-                    
-                    btn.disabled = false
-                    btn.innerHTML = "GUARDAR REGISTRO"
-                    form.reset()
-                    
-                    setTimeout(() => { mensajeDiv.style.display = "none" }, 5000)
+                    mensajeDiv.innerText = "¡REGISTRO ENVIADO!";
+                    mensajeDiv.style.color = "#00FF00";
+                    mensajeDiv.style.display = "block";
+                    btn.disabled = false;
+                    btn.innerHTML = "GUARDAR REGISTRO";
+                    form.reset();
+                    setTimeout(() => { mensajeDiv.style.display = "none" }, 5000);
                 })
                 .catch(error => {
-                    console.error('Error!', error.message)
-                    mensajeDiv.innerText = "ERROR AL CONECTAR"
-                    mensajeDiv.style.color = "#FF0000"
-                    mensajeDiv.style.display = "block"
-                    
-                    btn.disabled = false
-                    btn.innerHTML = "REINTENTAR"
+                    mensajeDiv.innerText = "HUBO UN PROBLEMA";
+                    mensajeDiv.style.color = "#FF0000";
+                    mensajeDiv.style.display = "block";
+                    btn.disabled = false;
+                    btn.innerHTML = "REINTENTAR";
                 })
         })
     </script>
